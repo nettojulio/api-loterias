@@ -1,0 +1,19 @@
+version: '3.9'
+services:
+  api:
+    container_name: api
+    image: nettojulio/teste-nest-api  
+    environment:
+      BASE_URL: https://servicebus2.caixa.gov.br/portaldeloterias/api
+      SWAGGER_DOC_ENV: development
+      PORT: 3000
+    ports:
+      - "3000:3000"
+    restart: on-failure
+    networks:
+      - app-private-network
+networks:
+  app-private-network:
+    driver: bridge
+    name: app-private-network
+  

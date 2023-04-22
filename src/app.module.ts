@@ -20,7 +20,7 @@ import { ResultadosService } from './resultados/resultados.service';
     }),
     ResultadosModule,
     CacheModule.register({
-      ttl: 15000, // 900000,
+      ttl: 900000,
       max: 220,
       isGlobal: true,
     }),

@@ -7,6 +7,7 @@ import {
 import { AxiosError } from 'axios';
 import * as https from 'https';
 import { catchError, firstValueFrom } from 'rxjs';
+import { Resultados } from './lista-de-loterias/resultados.dto';
 
 @Injectable()
 export class ResultadosClient {
@@ -72,7 +73,7 @@ export class ResultadosClient {
     try {
       const { data } = await firstValueFrom(
         this.httpService
-          .get<object>(`${process.env.BASE_URL}/home/ultimos-resultados`, {
+          .get<Resultados>(`${process.env.BASE_URL}/home/ultimos-resultados`, {
             httpsAgent: this.agent,
           })
           .pipe(

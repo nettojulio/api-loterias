@@ -1,4 +1,5 @@
 import { HttpModule } from '@nestjs/axios';
+import { CacheModule } from '@nestjs/cache-manager';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
@@ -18,6 +19,11 @@ import { ResultadosService } from './resultados/resultados.service';
         process.env.SWAGGER_DOC_ENV === 'development' ? '/' : '/swagger',
     }),
     ResultadosModule,
+    CacheModule.register({
+      ttl: 15000, // 900000,
+      max: 220,
+      isGlobal: true,
+    }),
   ],
   controllers: [ResultadosController],
   providers: [ResultadosService, ResultadosClient],

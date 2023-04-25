@@ -9,7 +9,6 @@ export class ResultadosService {
 
   constructor(
     private readonly resultadosClient: ResultadosClient,
-
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 

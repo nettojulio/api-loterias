@@ -86,9 +86,7 @@ export class ResultadosClient {
       this.logger.log(`Retornando ultimos sorteios`);
       return data;
     } catch (error) {
-      throw new InternalServerErrorException(
-        'Erro ao buscar últimos resultados!',
-      );
+      throw new InternalServerErrorException('Erro ao buscar resultados!');
     }
   }
 }

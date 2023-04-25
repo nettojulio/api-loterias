@@ -1,5 +1,10 @@
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  Logger,
+} from '@nestjs/common';
 import { Cache } from 'cache-manager';
 import { ResultadosClient } from './resultados.client';
 
@@ -31,6 +36,11 @@ export class ResultadosService {
     loteria: string,
     concurso: number,
   ) {
+    // TODO Refazer validacao
+    if (concurso < 1) {
+      throw new BadRequestException('Concurso inválido');
+    }
+
     const cacheKey = `resultado:${loteria}:${concurso}:latest`;
 
     let value = await this.cacheManager.get(cacheKey);

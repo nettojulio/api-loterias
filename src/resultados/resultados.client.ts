@@ -29,7 +29,7 @@ export class ResultadosClient {
           })
           .pipe(
             catchError((error: AxiosError) => {
-              this.logger.error('An error happened!');
+              this.logger.debug(error);
               throw new Error("'An error happened!'");
             }),
           ),
@@ -56,7 +56,7 @@ export class ResultadosClient {
           })
           .pipe(
             catchError((error: AxiosError) => {
-              this.logger.error('An error happened!');
+              this.logger.debug(error);
               throw new Error("'An error happened!'");
             }),
           ),
@@ -78,7 +78,7 @@ export class ResultadosClient {
           })
           .pipe(
             catchError((error: AxiosError) => {
-              this.logger.error('An error happened!');
+              this.logger.debug(error);
               throw new Error("'An error happened!'");
             }),
           ),

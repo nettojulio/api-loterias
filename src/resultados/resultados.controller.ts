@@ -14,9 +14,9 @@ import {
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
+import { EnumValidationPipe } from '../utils/validacaoes/validacoes-lista-loterias-enum';
 import { ListaDeLoterias } from './lista-de-loterias/lista-loterias.enum';
 import { ResultadosService } from './resultados.service';
-import { EnumValidationPipe } from './validacaoes/validacoes';
 
 @ApiTags('Resultados')
 @Controller('api/resultados')
@@ -24,7 +24,7 @@ export class ResultadosController {
   private readonly logger = new Logger(ResultadosController.name);
   constructor(private readonly resultadosService: ResultadosService) {}
 
-  @Get('/:loteria')
+  @Get('/loteria/:loteria')
   @HttpCode(200)
   @ApiParam({
     name: `loteria`,
@@ -44,7 +44,7 @@ export class ResultadosController {
     return this.resultadosService.ultimoResultadoLoteriaEscolhida(loteria);
   }
 
-  @Get('/:loteria/:concurso')
+  @Get('/loteria/:loteria/concurso/:concurso')
   @HttpCode(200)
   @ApiParam({
     name: `loteria`,
@@ -57,7 +57,7 @@ export class ResultadosController {
     description: 'Concurso desejado',
     required: true,
   })
-  @ApiOperation({ summary: `Resultado da loteria e concurso escolhidos.` })
+  @ApiOperation({ summary: `Resultado da loteria e concurso escolhido.` })
   @ApiOkResponse({ type: Object })
   @ApiBadRequestResponse({ type: Object })
   @ApiInternalServerErrorResponse({ type: Object })

@@ -15,7 +15,7 @@ import {
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
-import { EnumValidationPipe } from '../utils/validacaoes/validacoes-lista-loterias-enum';
+import { EnumValidationPipe } from '../utils/validacoes/validacoes-lista-loterias-enum';
 import { ListaDeLoterias } from './lista-de-loterias/lista-loterias.enum';
 import { ResultadosService } from './resultados.service';
 

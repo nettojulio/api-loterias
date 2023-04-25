@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Controller,
   Get,
   HttpCode,
@@ -62,9 +63,14 @@ export class ResultadosController {
   @ApiBadRequestResponse({ type: Object })
   @ApiInternalServerErrorResponse({ type: Object })
   async searchResult(
-    @Param('loteria', new EnumValidationPipe(ListaDeLoterias)) loteria: string,
+    @Param('loteria', new EnumValidationPipe(ListaDeLoterias))
+    loteria: ListaDeLoterias,
     @Param('concurso', ParseIntPipe) concurso: number,
   ) {
+    //TODO Redefinir validacao
+    if (concurso < 1) {
+      throw new BadRequestException('Concurso inválido');
+    }
     this.logger.log('Requisição recebida, validando parametros...');
     return this.resultadosService.ultimoResultadoLoteriaEConcursoEscolhido(
       loteria,

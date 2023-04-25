@@ -1,10 +1,10 @@
 import {
-  BadRequestException,
   Controller,
   Get,
   HttpCode,
   Logger,
   Param,
+  ParseIntPipe,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -16,6 +16,7 @@ import {
 } from '@nestjs/swagger';
 import { ListaDeLoterias } from './lista-de-loterias/lista-loterias.enum';
 import { ResultadosService } from './resultados.service';
+import { EnumValidationPipe } from './validacaoes/validacoes';
 
 @ApiTags('Resultados')
 @Controller('api/resultados')
@@ -35,12 +36,11 @@ export class ResultadosController {
   @ApiOkResponse({ type: Object })
   @ApiBadRequestResponse({ type: Object })
   @ApiInternalServerErrorResponse({ type: Object })
-  async latestResult(@Param('loteria') loteria: string) {
+  async latestResult(
+    @Param('loteria', new EnumValidationPipe(ListaDeLoterias))
+    loteria: ListaDeLoterias,
+  ) {
     this.logger.log('Requisição recebida, validando parametros...');
-    if (!ListaDeLoterias[loteria]) {
-      this.logger.error(`Loteria ${loteria} não é válida`);
-      throw new BadRequestException('Loteria não cadastrada');
-    }
     return this.resultadosService.ultimoResultadoLoteriaEscolhida(loteria);
   }
 
@@ -62,27 +62,17 @@ export class ResultadosController {
   @ApiBadRequestResponse({ type: Object })
   @ApiInternalServerErrorResponse({ type: Object })
   async searchResult(
-    @Param('loteria') loteria: string,
-    @Param('concurso') concurso: string,
+    @Param('loteria', new EnumValidationPipe(ListaDeLoterias)) loteria: string,
+    @Param('concurso', ParseIntPipe) concurso: number,
   ) {
     this.logger.log('Requisição recebida, validando parametros...');
-    if (!ListaDeLoterias[loteria]) {
-      this.logger.error(`Loteria ${loteria} não é válida`);
-      throw new BadRequestException('Loteria não cadastrada');
-    }
-
-    if (!Number.parseInt(concurso) || Number.parseInt(concurso) < 1) {
-      this.logger.error(`Concurso informado não é válido`);
-      throw new BadRequestException('Concurso inválido');
-    }
-
     return this.resultadosService.ultimoResultadoLoteriaEConcursoEscolhido(
       loteria,
       concurso,
     );
   }
 
-  @Get('')
+  @Get()
   @HttpCode(200)
   @ApiOperation({ summary: `Último resultado de TODAS as loterias` })
   @ApiOkResponse({ type: Object })

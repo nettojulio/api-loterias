@@ -37,6 +37,8 @@ async function bootstrap() {
 
   SwaggerModule.setup('/swagger', app, document, swaggerProductionConfigs);
 
+  app.useGlobalPipes();
+
   await app.listen(process.env.PORT || 3000);
 
   if (process.env.SWAGGER_DOC_ENV === 'development') {

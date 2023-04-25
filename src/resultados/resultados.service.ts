@@ -29,7 +29,7 @@ export class ResultadosService {
 
   async ultimoResultadoLoteriaEConcursoEscolhido(
     loteria: string,
-    concurso: string,
+    concurso: number,
   ) {
     const cacheKey = `resultado:${loteria}:${concurso}:latest`;
 

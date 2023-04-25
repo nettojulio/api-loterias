@@ -45,7 +45,7 @@ export class ResultadosClient {
 
   async ultimoResultadoLoteriaEConcursoEscolhido(
     loteria: string,
-    concurso: string,
+    concurso: number,
   ) {
     this.logger.log(`Consultando sorteio...`);
     try {

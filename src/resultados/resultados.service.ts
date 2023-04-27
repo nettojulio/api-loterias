@@ -1,6 +1,7 @@
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { Cache } from 'cache-manager';
+import { Resultados } from './lista-de-loterias/resultados.dto';
 import { ResultadosClient } from './resultados.client';
 
 @Injectable()
@@ -17,7 +18,8 @@ export class ResultadosService {
     const cache = await this.getCache(cacheKey);
 
     if (cache) {
-      return cache;
+      const cacheObj: object = Object(cache);
+      return cacheObj;
     }
 
     this.logger.log('Obtendo dados via HTTPS');
@@ -38,7 +40,8 @@ export class ResultadosService {
     const cache = await this.getCache(cacheKey);
 
     if (cache) {
-      return cache;
+      const cacheObj: object = Object(cache);
+      return cacheObj;
     }
 
     this.logger.log('Obtendo dados via HTTPS');
@@ -59,7 +62,8 @@ export class ResultadosService {
     const cache = await this.getCache(cacheKey);
 
     if (cache) {
-      return cache;
+      const cacheObj: Resultados = Object(cache);
+      return cacheObj;
     }
 
     this.logger.log('Obtendo dados via HTTPS');

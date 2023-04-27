@@ -21,7 +21,7 @@ import { ResultadosService } from './resultados/resultados.service';
     ResultadosModule,
     CacheModule.register({
       ttl: 900000,
-      max: 220,
+      max: 3000,
       isGlobal: true,
     }),
   ],

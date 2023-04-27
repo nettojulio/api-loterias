@@ -35,7 +35,7 @@ async function bootstrap() {
     ],
   };
 
-  SwaggerModule.setup('/', app, document, swaggerProductionConfigs);
+  SwaggerModule.setup('/swagger', app, document, swaggerProductionConfigs);
 
   app.useGlobalPipes();
 

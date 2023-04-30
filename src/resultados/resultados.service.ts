@@ -1,5 +1,11 @@
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Inject,
+  Injectable,
+  Logger,
+} from '@nestjs/common';
 import { Cache } from 'cache-manager';
 import { Resultados } from './lista-de-loterias/resultados.dto';
 import { ResultadosClient } from './resultados.client';
@@ -36,7 +42,7 @@ export class ResultadosService {
     loteria: string,
     concurso: number,
   ) {
-    const cacheKey = `resultado:${loteria}:${concurso}:latest`;
+    const cacheKey = `resultado:${loteria}:${concurso}`;
     const cache = await this.getCache(cacheKey);
 
     if (cache) {
@@ -80,19 +86,43 @@ export class ResultadosService {
     return resultado;
   }
 
-  async multiplosResultados(loteria: string, concurso: number) {
+  async multiplosResultados(loteria: string, inicial: number, final: number) {
     const concursosList: Array<number> = [];
 
-    for (let i = concurso; i <= concurso + 29; i++) {
+    if (final - inicial > 10) {
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.TOO_MANY_REQUESTS,
+          error: 'Too Many Requests',
+          message: 'Rate limit exceeded.',
+        },
+        429,
+      );
+    }
+
+    for (let i = inicial; i <= final; i++) {
       concursosList.push(i);
     }
 
     return await Promise.all(
       concursosList.map(async item => {
-        return await this.resultadosClient.ultimoResultadoLoteriaEConcursoEscolhido(
-          loteria,
-          item,
-        );
+        const cacheKey = `resultado:${loteria}:${item}`;
+        const cache = await this.getCache(cacheKey);
+
+        if (cache) {
+          const cacheObj: object = Object(cache);
+          return cacheObj;
+        }
+
+        const resultado =
+          await this.resultadosClient.ultimoResultadoLoteriaEConcursoEscolhido(
+            loteria,
+            item,
+          );
+
+        await this.setCache(cacheKey, resultado);
+
+        return resultado;
       }),
     );
   }

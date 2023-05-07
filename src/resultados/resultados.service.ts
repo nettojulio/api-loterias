@@ -89,7 +89,7 @@ export class ResultadosService {
   async multiplosResultados(loteria: string, inicial: number, final: number) {
     const concursosList: Array<number> = [];
 
-    if (final - inicial > 10) {
+    if (final - inicial > 100) {
       throw new HttpException(
         {
           statusCode: HttpStatus.TOO_MANY_REQUESTS,

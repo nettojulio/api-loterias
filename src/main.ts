@@ -8,6 +8,8 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+
+  
   app.enableVersioning({
     type: VersioningType.URI,
     defaultVersion: '1',
@@ -16,8 +18,8 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('API Loterias')
     .setDescription('API Loterias Caixa')
-    .setVersion('1.0')
-    .addTag('Resultados')
+    .setVersion('2.0')
+    .addTag('Resultados Semana 5')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
